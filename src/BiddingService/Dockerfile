@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0 as build
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:9.0 as build
 WORKDIR /app
 EXPOSE 80
 
@@ -16,9 +16,9 @@ COPY src/Contracts/Contracts.csproj src/Contracts/Contracts.csproj
 RUN dotnet restore Carsties.sln
 
 # Copy the app folders over
-COPY src/SearchService src/SearchService
+COPY src/BiddingService src/BiddingService
 COPY src/Contracts src/Contracts
-WORKDIR /app/src/SearchService
+WORKDIR /app/src/BiddingService
 RUN dotnet publish -c Release -o /app/src/out
 
 # Build runtime image
@@ -26,4 +26,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 RUN mkdir -p /app/src/out && chmod -R 777 /app/src/out
 COPY --from=build /app/src/out .
-ENTRYPOINT [ "dotnet", "SearchService.dll" ]
+ENTRYPOINT [ "dotnet", "BiddingService.dll" ]
