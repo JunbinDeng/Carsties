@@ -17,13 +17,13 @@ COPY src/Contracts/Contracts.csproj src/Contracts/Contracts.csproj
 RUN dotnet restore Carsties.sln
 
 # Copy the app folders over
-COPY src/GatewayService src/GatewayService
-WORKDIR /app/src/GatewayService
+COPY src/NotificationService src/NotificationService
+COPY src/Contracts src/Contracts
+WORKDIR /app/src/NotificationService
 RUN dotnet publish -c Release -o /app/src/out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
-RUN mkdir -p /app/src/out && chmod -R 777 /app/src/out
 COPY --from=build /app/src/out .
-ENTRYPOINT [ "dotnet", "GatewayService.dll" ]
+ENTRYPOINT [ "dotnet", "NotificationService.dll" ]
