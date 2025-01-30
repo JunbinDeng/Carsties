@@ -12,6 +12,7 @@ export default function Search() {
   const setSearchValue = useParamsStore((state) => state.setSearchValue);
   const searchValue = useParamsStore((state) => state.searchValue);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function onChange(event: any) {
     setSearchValue(event.target.value);
   }
@@ -24,15 +25,14 @@ export default function Search() {
   return (
     <div className='flex w-[50%] items-center border-2 rounded-full py-2 shadow-sm'>
       <input
-        onKeyDown={(e: any) => {
+        onKeyDown={(e) => {
           if (e.key === 'Enter') search();
         }}
         onChange={onChange}
         value={searchValue}
         type='text'
         placeholder='Search for cars by make, model or color'
-        className='flex-grow pl-5 bg-transparent focus:outline-none border-transparent 
-        focus:ring-0 text-sm text-gray-600'
+        className='input-custom text-sm text-gray-600'
       />
       <button onClick={search}>
         <FaSearch

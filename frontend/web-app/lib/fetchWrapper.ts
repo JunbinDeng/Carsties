@@ -13,7 +13,7 @@ async function get(url: string) {
   return handleResponse(response);
 }
 
-async function post(url: string, body: {}) {
+async function post(url: string, body: object) {
   const requestOptions = {
     method: 'POST',
     headers: await getHeaders(),
@@ -25,7 +25,7 @@ async function post(url: string, body: {}) {
   return handleResponse(response);
 }
 
-async function put(url: string, body: {}) {
+async function put(url: string, body: object) {
   const requestOptions = {
     method: 'PUT',
     headers: await getHeaders(),
@@ -52,6 +52,7 @@ async function getHeaders() {
   const session = await auth();
   const headers = {
     'Content-type': 'application/json',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any;
   if (session?.accessToken) {
     headers.Authorization = 'Bearer ' + session.accessToken;
@@ -61,16 +62,23 @@ async function getHeaders() {
 
 async function handleResponse(response: Response) {
   const text = await response.text();
-  const data = text && JSON.parse(text);
+  console.log({ text });
+
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (error) {
+    console.log(error);
+    data = text;
+  }
 
   if (response.ok) {
     return data || response.statusText;
   } else {
     const error = {
       status: response.status,
-      message: response.statusText,
+      message: typeof (data === 'string') ? data : response.statusText,
     };
-
     return { error };
   }
 }
