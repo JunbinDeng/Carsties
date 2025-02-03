@@ -33,7 +33,7 @@ export default function EmptyFilter({
           </Button>
         )}
         {showLogin && (
-          <Button outline onClick={() => signIn('id-server')}>
+          <Button outline onClick={() => signIn('id-server', { callbackUrl })}>
             Login
           </Button>
         )}

@@ -2,8 +2,8 @@ import React from 'react';
 import Search from './Search';
 import Logo from './Logo';
 import LoginButton from './LoginButton';
-import { getCurrentUser } from '../auctions/authActions';
 import UserActions from './UserActions';
+import { getCurrentUser } from '../auctions/authActions';
 
 export default async function Navbar() {
   const user = await getCurrentUser();

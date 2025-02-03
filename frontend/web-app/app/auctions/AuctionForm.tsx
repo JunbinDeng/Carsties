@@ -22,7 +22,7 @@ export default function AuctionForm({ auction }: Props) {
     handleSubmit,
     setFocus,
     reset,
-    formState: { isSubmitting, isValid, isDirty, errors },
+    formState: { isSubmitting, isValid },
   } = useForm({
     mode: 'onTouched',
   });
@@ -33,7 +33,7 @@ export default function AuctionForm({ auction }: Props) {
       reset({ make, model, color, mileage, year });
     }
     setFocus('make');
-  }, [setFocus]);
+  }, [auction, reset, setFocus]);
 
   async function onSubmit(data: FieldValues) {
     try {
@@ -52,6 +52,7 @@ export default function AuctionForm({ auction }: Props) {
         throw res.error;
       }
       router.push(`/auctions/details/${id}`);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.status + ' ' + error.message);
     }

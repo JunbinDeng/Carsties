@@ -3,8 +3,8 @@ import React from 'react';
 import AuctionForm from '../../AuctionForm';
 import { getDetailedViewData } from '@/app/actions/auctionActions';
 
-export default async function Update({ params }: { params: { id: string } }) {
-  const { id } = await params;
+export default async function Update({ params }: never) {
+  const { id } = params;
   const data = await getDetailedViewData(id);
 
   return (
