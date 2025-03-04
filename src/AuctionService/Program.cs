@@ -1,3 +1,4 @@
+using AuctionService;
 using AuctionService.Consumers;
 using AuctionService.Data;
 using AuctionService.Services;
@@ -51,6 +52,7 @@ builder.Services.AddMassTransit(x =>
 
   builder.Services.AddGrpc();
 });
+builder.Services.AddScoped<IAuctionRepository, AuctionRepository>();
 
 var app = builder.Build();
 

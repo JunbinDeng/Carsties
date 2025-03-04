@@ -5,17 +5,17 @@ namespace AuctionService.DTOs;
 public class CreateAuctionDto
 {
     [Required]
-    public required string Make { get; set; }
+    public string? Make { get; set; }
     [Required]
-    public required string Model { get; set; }
+    public string Model { get; set; } = string.Empty;
     [Required]
-    public required int Year { get; set; }
+    public int Year { get; set; }
     [Required]
-    public required string Color { get; set; }
+    public string Color { get; set; } = string.Empty;
     [Required]
     public int Mileage { get; set; }
     [Required]
-    public required string ImageUrl { get; set; }
+    public string ImageUrl { get; set; } = string.Empty;
     [Required]
     public int ReservePrice { get; set; }
     [Required]
