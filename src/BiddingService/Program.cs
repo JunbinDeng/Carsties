@@ -4,6 +4,7 @@ using BiddingService.Consumers;
 using MongoDB.Entities;
 using MongoDB.Driver;
 using BiddingService.Services;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,7 +49,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await DB.InitAsync("BidDb", MongoClientSettings
+await Policy.Handle<TimeoutException>()
+  .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(10))
+  .ExecuteAndCaptureAsync(async () =>
+  {
+    await DB.InitAsync("BidDb", MongoClientSettings
     .FromConnectionString(app.Configuration.GetConnectionString("BidDbConnection")));
+  });
 
 app.Run();
